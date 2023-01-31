@@ -25,7 +25,7 @@ export const TopTabNavigator: React.FC<Props> = () => {
 const options = {
   tabBarActiveTintColor: '#fff',
   tabBarIndicatorStyle: {
-    backgroundColor: '#fff',
+    backgroundColor: '#384436',
     height: 2,
   },
   tabBarLabelStyle: { fontSize: 16 },

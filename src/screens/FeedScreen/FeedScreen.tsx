@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: '5%',
-    paddingVertical: '10%',
+    paddingTop: '10%',
     backgroundColor: '#161827',
   },
 });

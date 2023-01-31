@@ -19,10 +19,6 @@ export const ImagesList: React.FC = () => {
   const { images, page, loading, error } = useImages();
   const [refreshing, setRefreshing] = useState(false);
 
-  const loadMore = () => {
-    dispatch(imagesActions.increasePage());
-  };
-
   const onError = useCallback(() => {
     Snackbar.show({
       text: 'Opss... Can not load images',
@@ -35,12 +31,16 @@ export const ImagesList: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
+  const loadFirstPage = () => {
+    dispatch(imagesActions.resetImages());
+    dispatch(imagesActions.setPage(1));
+    dispatch(imagesActions.load({ page: 1, limit: 3 }));
+  };
+
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
 
-    dispatch(imagesActions.resetImages());
-    dispatch(imagesActions.setPage(1));
-    dispatch(imagesActions.load({ page, limit: 3 }));
+    loadFirstPage();
 
     if (error.length > 0) {
       onError();
@@ -59,6 +59,17 @@ export const ImagesList: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
+  useEffect(() => {
+    if (!images.length) {
+      loadFirstPage();
+    }
+
+    if (error.length > 0) {
+      onError();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <View style={styles.root}>
       {loading && page === 1 ? (
@@ -71,7 +82,7 @@ export const ImagesList: React.FC = () => {
           renderItem={({ item }) => <ImageListItem image={item} />}
           keyExtractor={image => image.id}
           onEndReachedThreshold={0.3}
-          onEndReached={loadMore}
+          onEndReached={() => dispatch(imagesActions.increasePage())}
           ListFooterComponent={<ListFooter />}
           ListEmptyComponent={<ListEmpty />}
           refreshControl={
