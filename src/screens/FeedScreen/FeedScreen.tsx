@@ -18,7 +18,7 @@ export const FeedScreen: React.FC<Props> = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    // justifyContent: 'center',
+    justifyContent: 'center',
     paddingHorizontal: '5%',
     paddingVertical: '10%',
     backgroundColor: '#161827',

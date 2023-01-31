@@ -7,6 +7,7 @@ type ImagesState = {
   loading: boolean;
   error: string;
   page: number;
+  isEndOfList: boolean;
 };
 
 const initialState: ImagesState = {
@@ -14,6 +15,7 @@ const initialState: ImagesState = {
   loading: false,
   error: '',
   page: 1,
+  isEndOfList: false,
 };
 
 const articlesSlice = createSlice({
@@ -38,13 +40,18 @@ const articlesSlice = createSlice({
     builder.addCase(
       load.fulfilled,
       (state, action: PayloadAction<ImageI[]>) => {
-        state.images.push(...action.payload);
+        if (!action.payload.length) {
+          state.isEndOfList = true;
+        } else {
+          state.images = [...state.images, ...action.payload];
+        }
+
         state.loading = false;
       },
     );
 
     builder.addCase(load.rejected, state => {
-      state.error = 'Can not load articles';
+      state.error = 'Can not load images';
       state.loading = false;
     });
   },
