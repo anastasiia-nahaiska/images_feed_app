@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export const Navigation: React.FC = () => (
   <NavigationContainer>
     <Stack.Navigator
-      // screenOptions={{ headerShown: false }}
+      screenOptions={{ headerShown: false }}
       initialRouteName="Auth"
     >
       <Stack.Screen name="Auth" component={AuthScreen} />
