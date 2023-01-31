@@ -11,7 +11,6 @@ export const ImagesList: React.FC = () => {
   const loadMore = () => {
     dispatch(imagesActions.increasePage());
   };
-  console.warn(page);
 
   useEffect(() => {
     dispatch(imagesActions.load({ page, limit: 3 }));

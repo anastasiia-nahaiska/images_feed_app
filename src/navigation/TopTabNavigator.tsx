@@ -15,15 +15,21 @@ const Tab = createMaterialTopTabNavigator<TopTabParamList>();
 
 export const TopTabNavigator: React.FC<Props> = () => {
   return (
-    <Tab.Navigator initialRouteName="Feed">
+    <Tab.Navigator initialRouteName="Feed" screenOptions={options}>
       <Tab.Screen name="Feed" component={FeedScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 };
 
-// const styles = {
-//   tabBarLabelStyle: { fontSize: 12 },
-//   tabBarItemStyle: { width: 100 },
-//   tabBarStyle: { backgroundColor: 'powderblue' },
-// };
+const options = {
+  tabBarActiveTintColor: '#fff',
+  tabBarIndicatorStyle: {
+    backgroundColor: '#fff',
+    height: 2,
+  },
+  tabBarLabelStyle: { fontSize: 16 },
+  tabBarStyle: {
+    backgroundColor: '#161827',
+  },
+};
