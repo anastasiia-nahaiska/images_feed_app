@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ImageI } from '../../types/Image';
 import { getImagesPage } from './ImagesAPI';
 
@@ -23,16 +23,25 @@ const articlesSlice = createSlice({
     increasePage: state => {
       state.page += 1;
     },
+    setPage: (state, action: PayloadAction<number>) => {
+      state.page = action.payload;
+    },
+    resetImages: state => {
+      state.images = [];
+    },
   },
   extraReducers: builder => {
     builder.addCase(load.pending, state => {
       state.loading = true;
     });
 
-    builder.addCase(load.fulfilled, (state, action) => {
-      state.images.push(...action.payload);
-      state.loading = false;
-    });
+    builder.addCase(
+      load.fulfilled,
+      (state, action: PayloadAction<ImageI[]>) => {
+        state.images.push(...action.payload);
+        state.loading = false;
+      },
+    );
 
     builder.addCase(load.rejected, state => {
       state.error = 'Can not load articles';
@@ -49,4 +58,4 @@ export const load = createAsyncThunk(
 );
 
 export const { reducer } = articlesSlice;
-export const { increasePage } = articlesSlice.actions;
+export const { increasePage, setPage, resetImages } = articlesSlice.actions;
