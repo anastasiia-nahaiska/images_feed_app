@@ -12,7 +12,7 @@ export const Navigation: React.FC = () => (
   <NavigationContainer>
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName="Auth"
+      initialRouteName="Root"
     >
       <Stack.Screen name="Auth" component={AuthScreen} />
       <Stack.Screen name="Root" component={TopTabNavigator} />

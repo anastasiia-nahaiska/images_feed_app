@@ -3,6 +3,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { FeedScreen } from '../screens/FeedScreen';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+// import Icon from 'react-native-vector-icons/Ionicons';
 import {
   RootStackParamList,
   TopTabParamList,
@@ -20,3 +21,9 @@ export const TopTabNavigator: React.FC<Props> = () => {
     </Tab.Navigator>
   );
 };
+
+// const styles = {
+//   tabBarLabelStyle: { fontSize: 12 },
+//   tabBarItemStyle: { width: 100 },
+//   tabBarStyle: { backgroundColor: 'powderblue' },
+// };

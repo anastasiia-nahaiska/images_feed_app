@@ -8,6 +8,6 @@ const get = async (url: string) => {
   return response.json();
 };
 
-export const getPage = async (url: string, page: number) => {
-  return get(`${url}?page=${page}`);
+export const getPage = async (url: string, page: number, limit: number) => {
+  return get(`${url}?page=${page}&limit=${limit}`);
 };

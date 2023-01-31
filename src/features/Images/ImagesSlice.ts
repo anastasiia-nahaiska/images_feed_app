@@ -1,43 +1,52 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Image } from '../../types/Image';
+import { ImageI } from '../../types/Image';
 import { getImagesPage } from './ImagesAPI';
 
 type ImagesState = {
-  images: Image[];
+  images: ImageI[];
   loading: boolean;
   error: string;
+  page: number;
 };
 
 const initialState: ImagesState = {
   images: [],
   loading: false,
   error: '',
+  page: 1,
 };
 
 const articlesSlice = createSlice({
   name: 'images',
   initialState,
-  reducers: {},
+  reducers: {
+    increasePage: state => {
+      state.page += 1;
+    },
+  },
   extraReducers: builder => {
-    builder.addCase(init.pending, state => {
+    builder.addCase(load.pending, state => {
       state.loading = true;
     });
 
-    builder.addCase(init.fulfilled, (state, action) => {
-      state.images = action.payload;
+    builder.addCase(load.fulfilled, (state, action) => {
+      state.images.push(...action.payload);
       state.loading = false;
     });
 
-    builder.addCase(init.rejected, state => {
+    builder.addCase(load.rejected, state => {
       state.error = 'Can not load articles';
       state.loading = false;
     });
   },
 });
 
-export const init = createAsyncThunk('images/fetch', (page: number) => {
-  return getImagesPage(page);
-});
+export const load = createAsyncThunk(
+  'images/fetch',
+  ({ page, limit }: { page: number; limit: number }) => {
+    return getImagesPage(page, limit);
+  },
+);
 
 export const { reducer } = articlesSlice;
-export const actions = articlesSlice.actions;
+export const { increasePage } = articlesSlice.actions;
