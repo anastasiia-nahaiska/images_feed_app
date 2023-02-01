@@ -85,9 +85,16 @@ export const AuthScreen: React.FC<Props> = () => {
     const isInvalidPasword = validatePassword();
 
     if (!isInvalidEmail && !isInvalidPasword) {
-      saveOnDevice(filePath, { email, password });
+      const username = email.split('@')[0];
+      const newUser = {
+        email,
+        password,
+        username,
+      };
 
-      setUser({ email, password });
+      saveOnDevice(filePath, newUser);
+
+      setUser(newUser);
     }
   };
 

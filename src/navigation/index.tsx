@@ -16,7 +16,7 @@ export const Navigation: React.FC = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName={'Auth'}
+        initialRouteName="Auth"
       >
         {user ? (
           <Stack.Screen name="Root" component={TopTabNavigator} />

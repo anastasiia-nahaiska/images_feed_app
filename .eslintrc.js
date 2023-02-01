@@ -3,5 +3,11 @@ module.exports = {
   extends: '@react-native-community',
   rules: {
     'react-hooks/exhaustive-deps': 'off',
+    'react/no-unstable-nested-components': [
+      'warn',
+      {
+        allowAsProps: true,
+      },
+    ],
   },
 };

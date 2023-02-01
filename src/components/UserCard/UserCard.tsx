@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Dirs } from 'react-native-file-access';
 import { CustomIconButton } from '../../components/CustomIconButton';
 import { useAppDispatch, useUser } from '../../app/hooks';
-import { removeFromDevice } from '../../utils/fileSystem';
+import { getFromDevice, saveOnDevice } from '../../utils/fileSystem';
 import { actions as userActions } from '../../features/User/UserSlice';
 import { User } from '../../types/User';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -15,12 +15,18 @@ export const UserCard: React.FC = () => {
   const fileName = 'user.json';
   const filePath = `${Dirs.DocumentDir}/${fileName}`;
 
-  const setUser = (newUser: User | null) => dispatch(userActions.set(newUser));
+  const setUser = async (newUser: User | null) =>
+    dispatch(userActions.set(newUser));
+
+  const setUserFromDevice = async () => {
+    const userFromDevice: User = await getFromDevice(filePath);
+
+    await setUser(userFromDevice);
+  };
 
   const handleLogOut = () => {
-    removeFromDevice(filePath);
-
-    setUser(null);
+    saveOnDevice(filePath, null);
+    setUserFromDevice();
   };
 
   return (
@@ -32,7 +38,7 @@ export const UserCard: React.FC = () => {
       <View style={styles.textFields}>
         <View>
           <Text style={styles.fieldName}>Username: </Text>
-          <Text style={styles.fieldValue}>Anastasiia</Text>
+          <Text style={styles.fieldValue}>{user?.username}</Text>
         </View>
         <View>
           <Text style={styles.fieldName}>Email:</Text>
