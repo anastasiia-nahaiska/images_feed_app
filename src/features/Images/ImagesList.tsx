@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Snackbar from 'react-native-snackbar';
 
-import { useAppDispatch, useImages } from '../../app/hooks';
+import { useAppDispatch, useImages, useUser } from '../../app/hooks';
 import { ImageListItem } from '../../components/ImageListItem';
 import { ListEmpty } from '../../components/ListEmpty';
 import { ListFooter } from '../../components/ListFooter';
@@ -16,13 +16,14 @@ import * as imagesActions from './ImagesSlice';
 
 export const ImagesList: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { user } = useUser();
   const { images, page, loading, error } = useImages();
   const [refreshing, setRefreshing] = useState(false);
 
   const LIMIT = 3;
 
-  const resetImages = () => dispatch(imagesActions.resetImages());
   const setNextPage = () => dispatch(imagesActions.increasePage());
+  const resetPage = () => dispatch(imagesActions.resetPage());
   const loadImages = (targetPage: number, limit: number) =>
     dispatch(imagesActions.load({ page: targetPage, limit }));
 
@@ -40,8 +41,10 @@ export const ImagesList: React.FC = () => {
   const onRefresh = async () => {
     setRefreshing(true);
 
-    resetImages();
-    console.warn(page);
+    resetPage();
+
+    await loadImages(page, LIMIT);
+
     if (error.length > 0) {
       onError();
     }
@@ -50,12 +53,15 @@ export const ImagesList: React.FC = () => {
   };
 
   useEffect(() => {
+    resetPage();
+  }, [user]);
+
+  useEffect(() => {
     loadImages(page, LIMIT);
 
     if (error.length > 0) {
       onError();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   return (

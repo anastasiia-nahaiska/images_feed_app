@@ -25,11 +25,8 @@ const imagesSlice = createSlice({
     increasePage: state => {
       state.page += 1;
     },
-    setPage: (state, action: PayloadAction<number>) => {
-      state.page = action.payload;
-    },
-    resetImages: state => {
-      state.images = [];
+    resetPage: state => {
+      state.page = 1;
     },
   },
   extraReducers: builder => {
@@ -42,6 +39,8 @@ const imagesSlice = createSlice({
       (state, action: PayloadAction<ImageI[]>) => {
         if (!action.payload.length) {
           state.isEndOfList = true;
+        } else if (state.page === 1) {
+          state.images = action.payload;
         } else {
           state.images = [...state.images, ...action.payload];
         }
@@ -54,10 +53,6 @@ const imagesSlice = createSlice({
       state.error = 'Can not load images';
       state.loading = false;
     });
-
-    builder.addCase(resetImages.type, state => {
-      state.page = 1;
-    });
   },
 });
 
@@ -69,4 +64,4 @@ export const load = createAsyncThunk(
 );
 
 export const { reducer } = imagesSlice;
-export const { increasePage, setPage, resetImages } = imagesSlice.actions;
+export const { increasePage, resetPage } = imagesSlice.actions;
