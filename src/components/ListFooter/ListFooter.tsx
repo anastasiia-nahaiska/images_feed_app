@@ -15,7 +15,8 @@ export const ListFooter: React.FC = () => {
 
 const styles = StyleSheet.create({
   root: {
-    padding: '3%',
+    paddingTop: '5%',
+    paddingBottom: '10%',
   },
   message: {
     color: '#fff',

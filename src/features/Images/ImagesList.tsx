@@ -19,6 +19,13 @@ export const ImagesList: React.FC = () => {
   const { images, page, loading, error } = useImages();
   const [refreshing, setRefreshing] = useState(false);
 
+  const LIMIT = 3;
+
+  const resetImages = () => dispatch(imagesActions.resetImages());
+  const setNextPage = () => dispatch(imagesActions.increasePage());
+  const loadImages = (targetPage: number, limit: number) =>
+    dispatch(imagesActions.load({ page: targetPage, limit }));
+
   const onError = useCallback(() => {
     Snackbar.show({
       text: 'Opss... Can not load images',
@@ -28,47 +35,28 @@ export const ImagesList: React.FC = () => {
         onPress: () => dispatch(imagesActions.load({ page, limit: 3 })),
       },
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
-  const loadFirstPage = () => {
-    dispatch(imagesActions.resetImages());
-    dispatch(imagesActions.setPage(1));
-    dispatch(imagesActions.load({ page: 1, limit: 3 }));
-  };
-
-  const onRefresh = useCallback(async () => {
+  const onRefresh = async () => {
     setRefreshing(true);
 
-    loadFirstPage();
-
+    resetImages();
+    console.warn(page);
     if (error.length > 0) {
       onError();
     }
 
     setRefreshing(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  };
 
   useEffect(() => {
-    dispatch(imagesActions.load({ page, limit: 3 }));
+    loadImages(page, LIMIT);
 
     if (error.length > 0) {
       onError();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
-
-  useEffect(() => {
-    if (!images.length) {
-      loadFirstPage();
-    }
-
-    if (error.length > 0) {
-      onError();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <View style={styles.root}>
@@ -82,7 +70,7 @@ export const ImagesList: React.FC = () => {
           renderItem={({ item }) => <ImageListItem image={item} />}
           keyExtractor={image => image.id}
           onEndReachedThreshold={0.3}
-          onEndReached={() => dispatch(imagesActions.increasePage())}
+          onEndReached={setNextPage}
           ListFooterComponent={<ListFooter />}
           ListEmptyComponent={<ListEmpty />}
           refreshControl={

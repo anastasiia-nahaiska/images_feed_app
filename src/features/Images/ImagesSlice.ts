@@ -18,7 +18,7 @@ const initialState: ImagesState = {
   isEndOfList: false,
 };
 
-const articlesSlice = createSlice({
+const imagesSlice = createSlice({
   name: 'images',
   initialState,
   reducers: {
@@ -54,6 +54,10 @@ const articlesSlice = createSlice({
       state.error = 'Can not load images';
       state.loading = false;
     });
+
+    builder.addCase(resetImages.type, state => {
+      state.page = 1;
+    });
   },
 });
 
@@ -64,5 +68,5 @@ export const load = createAsyncThunk(
   },
 );
 
-export const { reducer } = articlesSlice;
-export const { increasePage, setPage, resetImages } = articlesSlice.actions;
+export const { reducer } = imagesSlice;
+export const { increasePage, setPage, resetImages } = imagesSlice.actions;

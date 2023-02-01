@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../types/RootStackParamList';
+import { Dirs } from 'react-native-file-access';
 import { View, StyleSheet, Pressable } from 'react-native';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+
+import { RootStackParamList } from '../../types/RootStackParamList';
 import { LoginButton } from '../../components/LoginButton';
 import { CustomInput } from '../../components/FormInput';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+
 import {
   emailRegex,
   containSpacesRegex,
   passwordLengthRegex,
 } from '../../constants/Regexes';
+import { getFromDevice, saveOnDevice } from '../../utils/fileSystem';
+import { useAppDispatch, useUser } from '../../app/hooks';
+import { actions as userActions } from '../../features/User/UserSlice';
+import { User } from '../../types/User';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Auth'>;
 
@@ -19,6 +26,35 @@ export const AuthScreen: React.FC<Props> = ({ navigation }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
   const [invalidEmailMessage, setInvalidEmailMessage] = useState('');
   const [invalidPasswordMessage, setInvalidPasswordMessage] = useState('');
+
+  const dispatch = useAppDispatch();
+  const { user } = useUser();
+
+  const fileName = 'user.json';
+  const filePath = `${Dirs.DocumentDir}/${fileName}`;
+
+  const setUser = (newUser: User) => dispatch(userActions.set(newUser));
+
+  const redirect = () => {
+    navigation.navigate('Root');
+  };
+
+  const getUserFromDevice = useCallback(async () => {
+    const userFromDevice: User = await getFromDevice(filePath);
+
+    setUser(userFromDevice);
+  }, [filePath]);
+
+  useEffect(() => {
+    getUserFromDevice();
+    redirect();
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      redirect();
+    }
+  }, [user]);
 
   const validateEmail = () => {
     let message = '';
@@ -61,7 +97,9 @@ export const AuthScreen: React.FC<Props> = ({ navigation }) => {
     const isInvalidPasword = validatePassword();
 
     if (!isInvalidEmail && !isInvalidPasword) {
-      navigation.navigate('Root');
+      saveOnDevice(filePath, { email, password });
+
+      redirect();
     }
   };
 
