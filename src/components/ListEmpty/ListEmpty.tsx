@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { Text, View } from 'react-native';
+import { styles } from './styles';
 
 export const ListEmpty: React.FC = () => {
   return (
@@ -9,14 +9,3 @@ export const ListEmpty: React.FC = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  message: {
-    color: '#fff',
-    fontSize: 16,
-  },
-});

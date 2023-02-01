@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Text, View } from 'react-native';
 import { Dirs } from 'react-native-file-access';
 import { CustomIconButton } from '../../components/CustomIconButton';
@@ -8,32 +8,35 @@ import { actions as userActions } from '../../features/User/UserSlice';
 import { User } from '../../types/User';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { styles } from './styles';
+import { userFileName } from '../../constants/fileNames';
+import { colors } from '../../constants/styles/colors';
 
 export const UserCard: React.FC = () => {
   const dispatch = useAppDispatch();
   const { user } = useUser();
 
-  const fileName = 'user.json';
-  const filePath = `${Dirs.DocumentDir}/${fileName}`;
+  const filePath = `${Dirs.DocumentDir}/${userFileName}`;
 
-  const setUser = async (newUser: User | null) =>
-    dispatch(userActions.set(newUser));
+  const setUser = useCallback(
+    async (newUser: User | null) => dispatch(userActions.set(newUser)),
+    [],
+  );
 
-  const setUserFromDevice = async () => {
+  const setUserFromDevice = useCallback(async () => {
     const userFromDevice: User = await getFromDevice(filePath);
 
     await setUser(userFromDevice);
-  };
+  }, [filePath]);
 
-  const handleLogOut = () => {
+  const handleLogOut = useCallback(() => {
     saveOnDevice(filePath, null);
     setUserFromDevice();
-  };
+  }, [filePath]);
 
   return (
     <View style={styles.root}>
       <View style={styles.avatar}>
-        <Icon name="user" size={50} color="#fff" />
+        <Icon name="user" size={50} color={colors.white} />
       </View>
 
       <View style={styles.textFields}>
@@ -52,7 +55,7 @@ export const UserCard: React.FC = () => {
           name={'logout'}
           size={25}
           onPress={handleLogOut}
-          color={'#fff'}
+          color={colors.white}
         />
       </View>
     </View>

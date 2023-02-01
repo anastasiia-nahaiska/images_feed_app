@@ -5,7 +5,7 @@ import { fontSizes } from '../../constants/styles/fontSizes';
 export const styles = StyleSheet.create({
   root: {
     marginBottom: '10%',
-    backgroundColor: '#161827',
+    borderRadius: 10,
   },
   image: {
     position: 'relative',
@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
   },
   authorText: {
-    color: colors.gray,
+    color: colors.white,
     fontSize: fontSizes.small,
   },
 });

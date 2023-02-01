@@ -7,7 +7,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import {
   RootStackParamList,
   TopTabParamList,
-} from '../types/RootStackParamList';
+} from '../types/NavigationParamLists';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { styles } from './styles';
 import { colors } from '../constants/styles/colors';
@@ -26,8 +26,8 @@ export const TopTabNavigator: React.FC<Props> = () => {
           tabBarIcon: ({ focused }) => (
             <MaterialIcon
               size={30}
-              name="home"
-              color={focused ? '#fff' : '#ccc'}
+              name="home-filled"
+              color={focused ? colors.beige : colors.white}
             />
           ),
         }}
@@ -41,7 +41,7 @@ export const TopTabNavigator: React.FC<Props> = () => {
             <MaterialIcon
               size={30}
               name="account-circle"
-              color={focused ? '#fff' : '#ccc'}
+              color={focused ? colors.beige : colors.white}
             />
           ),
         }}

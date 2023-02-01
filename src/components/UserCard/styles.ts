@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 20,
     borderRadius: 10,
 
-    backgroundColor: '#384436',
+    backgroundColor: colors.secondary,
   },
   avatar: {
     justifyContent: 'center',
@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     width: 80,
 
     borderRadius: 40,
-    backgroundColor: colors.gray,
+    backgroundColor: colors.red,
   },
   button: {
     position: 'absolute',

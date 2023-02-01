@@ -1,7 +1,7 @@
 import React from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { View } from 'react-native';
-import { TopTabParamList } from '../../types/RootStackParamList';
+import { TopTabParamList } from '../../types/NavigationParamLists';
 import { UserCard } from '../../components/UserCard';
 import { styles } from './styles';
 

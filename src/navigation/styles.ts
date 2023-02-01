@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
   },
   tabLabel: {
     fontSize: fontSizes.large,
+    color: colors.white,
   },
   tabIndicator: {
     backgroundColor: colors.secondary,

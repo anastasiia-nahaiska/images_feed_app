@@ -22,10 +22,18 @@ export const ImagesList: React.FC = () => {
 
   const LIMIT = 3;
 
-  const setNextPage = () => dispatch(imagesActions.increasePage());
-  const resetPage = () => dispatch(imagesActions.resetPage());
-  const loadImages = (targetPage: number, limit: number) =>
-    dispatch(imagesActions.load({ page: targetPage, limit }));
+  const setNextPage = useCallback(
+    () => dispatch(imagesActions.increasePage()),
+    [],
+  );
+
+  const resetPage = useCallback(() => dispatch(imagesActions.resetPage()), []);
+
+  const loadImages = useCallback(
+    (targetPage: number, limit: number) =>
+      dispatch(imagesActions.load({ page: targetPage, limit })),
+    [],
+  );
 
   const onError = useCallback(() => {
     Snackbar.show({
@@ -38,19 +46,19 @@ export const ImagesList: React.FC = () => {
     });
   }, [page]);
 
-  const onRefresh = async () => {
+  const onRefresh = useCallback(() => {
     setRefreshing(true);
 
     resetPage();
 
-    await loadImages(page, LIMIT);
+    loadImages(page, LIMIT);
 
     if (error.length > 0) {
       onError();
     }
 
     setRefreshing(false);
-  };
+  }, [page, LIMIT, error]);
 
   useEffect(() => {
     resetPage();

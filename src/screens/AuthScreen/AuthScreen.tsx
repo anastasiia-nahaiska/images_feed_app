@@ -3,21 +3,18 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Dirs } from 'react-native-file-access';
 import { View } from 'react-native';
 
-import { RootStackParamList } from '../../types/RootStackParamList';
+import { RootStackParamList } from '../../types/NavigationParamLists';
 import { LoginButton } from '../../components/LoginButton';
 import { CustomInput } from '../../components/FormInput';
-
-import {
-  emailRegex,
-  containSpacesRegex,
-  passwordLengthRegex,
-} from '../../constants/regexes';
 import { getFromDevice, saveOnDevice } from '../../utils/fileSystem';
 import { useAppDispatch } from '../../app/hooks';
 import { actions as userActions } from '../../features/User/UserSlice';
 import { User } from '../../types/User';
 import { CustomIconButton } from '../../components/CustomIconButton';
 import { styles } from './styles';
+import { userFileName } from '../../constants/fileNames';
+import { emailRegex, passwordRegex } from '../../constants/regexes';
+import { colors } from '../../constants/styles/colors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Auth'>;
 
@@ -30,10 +27,12 @@ export const AuthScreen: React.FC<Props> = () => {
 
   const dispatch = useAppDispatch();
 
-  const fileName = 'user.json';
-  const filePath = `${Dirs.DocumentDir}/${fileName}`;
+  const filePath = `${Dirs.DocumentDir}/${userFileName}`;
 
-  const setUser = (newUser: User) => dispatch(userActions.set(newUser));
+  const setUser = useCallback(
+    (newUser: User) => dispatch(userActions.set(newUser)),
+    [],
+  );
 
   const getUserFromDevice = useCallback(async () => {
     const userFromDevice: User = await getFromDevice(filePath);
@@ -41,15 +40,11 @@ export const AuthScreen: React.FC<Props> = () => {
     setUser(userFromDevice);
   }, [filePath]);
 
-  useEffect(() => {
-    getUserFromDevice();
-  }, []);
-
-  const validateEmail = () => {
+  const validateEmail = useCallback(() => {
     let message = '';
 
     if (!emailRegex.test(email)) {
-      message = 'Email is not valid';
+      message = 'Incorrect email';
     }
 
     if (!email.length) {
@@ -58,34 +53,34 @@ export const AuthScreen: React.FC<Props> = () => {
 
     setInvalidEmailMessage(message);
 
-    return message.length > 0;
-  };
+    return !message.length;
+  }, [email]);
 
-  const validatePassword = () => {
+  const validatePassword = useCallback(() => {
     let message = '';
 
-    if (!passwordLengthRegex.test(password)) {
+    if (!passwordRegex.test(password)) {
+      message = 'Password can contain only digits and english letters';
+    }
+
+    if (password.length < 8 || password.length > 32) {
       message = 'Password length must be from 8 to 32';
     }
 
-    if (containSpacesRegex.test(password)) {
-      message = 'Password can not contain spaces';
-    }
-
     if (!password.length) {
-      message = 'Email can not be empty';
+      message = 'Password can not be empty';
     }
 
     setInvalidPasswordMessage(message);
 
-    return message.length > 0;
-  };
+    return !message.length;
+  }, [password]);
 
-  const onSubmit = async () => {
-    const isInvalidEmail = validateEmail();
-    const isInvalidPasword = validatePassword();
+  const onSubmit = useCallback(async () => {
+    const isValidPassword = validatePassword();
+    const isValidEmail = validateEmail();
 
-    if (!isInvalidEmail && !isInvalidPasword) {
+    if (isValidPassword && isValidEmail) {
       const username = email.split('@')[0];
       const newUser = {
         email,
@@ -97,11 +92,11 @@ export const AuthScreen: React.FC<Props> = () => {
 
       setUser(newUser);
     }
-  };
+  }, [password, email, filePath]);
 
-  const handlePasswordVisibility = () => {
-    setIsPasswordVisible(state => !state);
-  };
+  useEffect(() => {
+    getUserFromDevice();
+  }, [email, password, filePath]);
 
   return (
     <View style={styles.root}>
@@ -126,8 +121,8 @@ export const AuthScreen: React.FC<Props> = () => {
           <CustomIconButton
             name={isPasswordVisible ? 'visibility' : 'visibility-off'}
             size={25}
-            color="#161827"
-            onPress={handlePasswordVisibility}
+            color={colors.primary}
+            onPress={() => setIsPasswordVisible(state => !state)}
           />
         </CustomInput>
       </View>

@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
   },
   message: {
     position: 'absolute',
-    bottom: -15,
+    bottom: -10,
 
     fontSize: fontSizes.small,
     color: colors.red,

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { TopTabParamList } from '../../types/RootStackParamList';
+import { TopTabParamList } from '../../types/NavigationParamLists';
 import { ImagesList } from '../../components/ImagesList';
 import { View } from 'react-native';
 import { styles } from './styles';
