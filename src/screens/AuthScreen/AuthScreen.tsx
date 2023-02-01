@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Dirs } from 'react-native-file-access';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 
 import { RootStackParamList } from '../../types/RootStackParamList';
 import { LoginButton } from '../../components/LoginButton';
@@ -11,12 +11,13 @@ import {
   emailRegex,
   containSpacesRegex,
   passwordLengthRegex,
-} from '../../constants/Regexes';
+} from '../../constants/regexes';
 import { getFromDevice, saveOnDevice } from '../../utils/fileSystem';
 import { useAppDispatch } from '../../app/hooks';
 import { actions as userActions } from '../../features/User/UserSlice';
 import { User } from '../../types/User';
 import { CustomIconButton } from '../../components/CustomIconButton';
+import { styles } from './styles';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Auth'>;
 
@@ -123,7 +124,7 @@ export const AuthScreen: React.FC<Props> = () => {
           onBlur={validatePassword}
         >
           <CustomIconButton
-            name={isPasswordVisible ? 'visibility-off' : 'visibility'}
+            name={isPasswordVisible ? 'visibility' : 'visibility-off'}
             size={25}
             color="#161827"
             onPress={handlePasswordVisibility}
@@ -135,18 +136,3 @@ export const AuthScreen: React.FC<Props> = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: '5%',
-
-    backgroundColor: '#161827',
-  },
-  loginForm: {
-    justifyContent: 'center',
-    gap: 30,
-    marginBottom: 70,
-  },
-});

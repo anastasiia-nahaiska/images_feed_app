@@ -1,6 +1,7 @@
 import React from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
 import { useImages } from '../../app/hooks';
+import { styles } from './styles';
 
 export const ListFooter: React.FC = () => {
   const { page, loading, isEndOfList } = useImages();
@@ -12,15 +13,3 @@ export const ListFooter: React.FC = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  root: {
-    paddingTop: '5%',
-    paddingBottom: '10%',
-  },
-  message: {
-    color: '#fff',
-    fontSize: 16,
-    textAlign: 'center',
-  },
-});

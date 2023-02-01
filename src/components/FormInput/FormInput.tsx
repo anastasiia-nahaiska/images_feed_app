@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Text } from 'react-native';
-import { KeyboardTypeOptions, StyleSheet, TextInput, View } from 'react-native';
+import { KeyboardTypeOptions, TextInput, View } from 'react-native';
+import { styles } from './styles';
 
 type Props = {
   children?: ReactNode;
@@ -41,33 +42,3 @@ export const CustomInput: React.FC<Props> = ({
     )}
   </View>
 );
-
-const styles = StyleSheet.create({
-  root: {
-    position: 'relative',
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    alignSelf: 'center',
-
-    marginBottom: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    width: '100%',
-
-    backgroundColor: '#F8F8FA',
-    borderRadius: 10,
-  },
-  innerText: {
-    fontSize: 16,
-  },
-  message: {
-    position: 'absolute',
-    bottom: -15,
-
-    fontSize: 12,
-    color: 'red',
-  },
-});

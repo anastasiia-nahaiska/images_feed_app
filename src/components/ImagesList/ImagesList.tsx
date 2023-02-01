@@ -3,16 +3,16 @@ import {
   ActivityIndicator,
   FlatList,
   RefreshControl,
-  StyleSheet,
   View,
 } from 'react-native';
 import Snackbar from 'react-native-snackbar';
 
 import { useAppDispatch, useImages, useUser } from '../../app/hooks';
-import { ImageListItem } from '../../components/ImageListItem';
-import { ListEmpty } from '../../components/ListEmpty';
-import { ListFooter } from '../../components/ListFooter';
-import * as imagesActions from './ImagesSlice';
+import { ImageListItem } from '../ImageListItem';
+import { ListEmpty } from '../ListEmpty';
+import { ListFooter } from '../ListFooter';
+import * as imagesActions from '../../features/Images/ImagesSlice';
+import { styles } from './syles';
 
 export const ImagesList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -87,15 +87,3 @@ export const ImagesList: React.FC = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  loader: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

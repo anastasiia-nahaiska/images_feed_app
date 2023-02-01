@@ -9,7 +9,8 @@ import {
   TopTabParamList,
 } from '../types/RootStackParamList';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import { StyleSheet } from 'react-native';
+import { styles } from './styles';
+import { colors } from '../constants/styles/colors';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Root'>;
 
@@ -49,44 +50,12 @@ export const TopTabNavigator: React.FC<Props> = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  barItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  tabIcon: {
-    width: 30,
-    height: 30,
-  },
-  tabBar: {
-    justifyContent: 'center',
-    height: 60,
-    backgroundColor: '#161827',
-  },
-  tabLabel: {
-    fontSize: 18,
-  },
-  tabIndicator: {
-    backgroundColor: '#384436',
-    height: 2,
-  },
-});
-
 const options = {
   tabBarShowIcon: true,
-  tabBarActiveTintColor: '#fff',
-  tabBarIndicatorStyle: {
-    ...styles.tabIndicator,
-  },
-  tabBarLabelStyle: { fontSize: 18 },
-  tabBarStyle: {
-    ...styles.tabBar,
-  },
-  tabBarItemStyle: {
-    ...styles.barItem,
-  },
-  tabBarIconStyle: {
-    ...styles.tabIcon,
-  },
+  tabBarActiveTintColor: colors.white,
+  tabBarIndicatorStyle: { ...styles.tabIndicator },
+  tabBarLabelStyle: { ...styles.tabLabel },
+  tabBarStyle: { ...styles.tabBar },
+  tabBarItemStyle: { ...styles.barItem },
+  tabBarIconStyle: { ...styles.tabIcon },
 };

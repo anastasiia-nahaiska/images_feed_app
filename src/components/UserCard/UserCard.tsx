@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { Dirs } from 'react-native-file-access';
 import { CustomIconButton } from '../../components/CustomIconButton';
 import { useAppDispatch, useUser } from '../../app/hooks';
@@ -7,6 +7,7 @@ import { getFromDevice, saveOnDevice } from '../../utils/fileSystem';
 import { actions as userActions } from '../../features/User/UserSlice';
 import { User } from '../../types/User';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { styles } from './styles';
 
 export const UserCard: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -49,7 +50,7 @@ export const UserCard: React.FC = () => {
       <View style={styles.button}>
         <CustomIconButton
           name={'logout'}
-          size={35}
+          size={25}
           onPress={handleLogOut}
           color={'#fff'}
         />
@@ -57,47 +58,3 @@ export const UserCard: React.FC = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  root: {
-    position: 'relative',
-
-    flexDirection: 'row',
-    alignItems: 'center',
-
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    borderRadius: 10,
-
-    backgroundColor: '#384436',
-  },
-  avatar: {
-    justifyContent: 'center',
-    alignItems: 'center',
-
-    marginRight: 20,
-    height: 80,
-    width: 80,
-
-    borderRadius: 40,
-    backgroundColor: '#dddddd',
-  },
-  button: {
-    position: 'absolute',
-    top: 20,
-    right: 20,
-  },
-  textFields: {
-    gap: 6,
-  },
-  fieldName: {
-    marginBottom: 2,
-    fontSize: 16,
-    color: '#fff',
-  },
-  fieldValue: {
-    fontSize: 14,
-    color: '#fff',
-    fontWeight: '300',
-  },
-});
