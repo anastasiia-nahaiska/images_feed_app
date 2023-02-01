@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Dirs } from 'react-native-file-access';
-import { View, StyleSheet, Pressable } from 'react-native';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import { View, StyleSheet } from 'react-native';
 
 import { RootStackParamList } from '../../types/RootStackParamList';
 import { LoginButton } from '../../components/LoginButton';
@@ -14,13 +13,14 @@ import {
   passwordLengthRegex,
 } from '../../constants/Regexes';
 import { getFromDevice, saveOnDevice } from '../../utils/fileSystem';
-import { useAppDispatch, useUser } from '../../app/hooks';
+import { useAppDispatch } from '../../app/hooks';
 import { actions as userActions } from '../../features/User/UserSlice';
 import { User } from '../../types/User';
+import { CustomIconButton } from '../../components/CustomIconButton';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Auth'>;
 
-export const AuthScreen: React.FC<Props> = ({ navigation }) => {
+export const AuthScreen: React.FC<Props> = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
@@ -28,16 +28,11 @@ export const AuthScreen: React.FC<Props> = ({ navigation }) => {
   const [invalidPasswordMessage, setInvalidPasswordMessage] = useState('');
 
   const dispatch = useAppDispatch();
-  const { user } = useUser();
 
   const fileName = 'user.json';
   const filePath = `${Dirs.DocumentDir}/${fileName}`;
 
   const setUser = (newUser: User) => dispatch(userActions.set(newUser));
-
-  const redirect = () => {
-    navigation.navigate('Root');
-  };
 
   const getUserFromDevice = useCallback(async () => {
     const userFromDevice: User = await getFromDevice(filePath);
@@ -47,14 +42,7 @@ export const AuthScreen: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     getUserFromDevice();
-    redirect();
   }, []);
-
-  useEffect(() => {
-    if (user) {
-      redirect();
-    }
-  }, [user]);
 
   const validateEmail = () => {
     let message = '';
@@ -92,14 +80,14 @@ export const AuthScreen: React.FC<Props> = ({ navigation }) => {
     return message.length > 0;
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const isInvalidEmail = validateEmail();
     const isInvalidPasword = validatePassword();
 
     if (!isInvalidEmail && !isInvalidPasword) {
       saveOnDevice(filePath, { email, password });
 
-      redirect();
+      setUser({ email, password });
     }
   };
 
@@ -127,13 +115,12 @@ export const AuthScreen: React.FC<Props> = ({ navigation }) => {
           invalidValueMessage={invalidPasswordMessage}
           onBlur={validatePassword}
         >
-          <Pressable onPress={handlePasswordVisibility}>
-            <MaterialIcon
-              name={isPasswordVisible ? 'visibility-off' : 'visibility'}
-              size={25}
-              color="#161827"
-            />
-          </Pressable>
+          <CustomIconButton
+            name={isPasswordVisible ? 'visibility-off' : 'visibility'}
+            size={25}
+            color="#161827"
+            onPress={handlePasswordVisibility}
+          />
         </CustomInput>
       </View>
 

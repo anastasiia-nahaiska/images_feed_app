@@ -1,6 +1,6 @@
 import { FileSystem } from 'react-native-file-access';
 
-export const saveOnDevice = (path: string, data: any) => {
+export const saveOnDevice = async (path: string, data: any) => {
   FileSystem.writeFile(path, JSON.stringify(data));
 };
 
@@ -17,6 +17,6 @@ export const getFromDevice = async (path: string): Promise<any> => {
   return data;
 };
 
-export const removeOnDevice = (path: string) => {
-  FileSystem.unlink(path);
+export const removeFromDevice = async (path: string) => {
+  await FileSystem.unlink(path);
 };
