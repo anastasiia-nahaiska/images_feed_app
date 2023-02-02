@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 type Props = {
@@ -15,7 +15,7 @@ export const CustomIconButton: React.FC<Props> = ({
   size,
   color,
 }) => (
-  <Pressable onPress={onPress}>
+  <TouchableOpacity onPress={onPress}>
     <MaterialIcon name={name} size={size} color={color} />
-  </Pressable>
+  </TouchableOpacity>
 );

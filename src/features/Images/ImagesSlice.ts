@@ -28,8 +28,11 @@ const imagesSlice = createSlice({
     resetPage: state => {
       state.page = 1;
     },
-    resetImage: state => {
+    reset: state => {
+      state.error = '';
       state.images = [];
+      state.page = 1;
+      state.isEndOfList = false;
     },
   },
   extraReducers: builder => {
@@ -65,4 +68,4 @@ export const load = createAsyncThunk('images/fetch', (page: number) => {
 });
 
 export const { reducer } = imagesSlice;
-export const { increasePage, resetPage, resetImage } = imagesSlice.actions;
+export const { increasePage, resetPage, reset } = imagesSlice.actions;

@@ -22,10 +22,8 @@ export const UserCard: React.FC = () => {
     dispatch(userActions.set(newUser));
   }, []);
 
-  const resetPage = useCallback(() => dispatch(imagesActions.resetPage()), []);
-
-  const resetImage = useCallback(() => {
-    dispatch(imagesActions.resetImage());
+  const resetImagesState = useCallback(() => {
+    dispatch(imagesActions.reset());
   }, []);
 
   const setUserFromDevice = useCallback(async () => {
@@ -35,8 +33,7 @@ export const UserCard: React.FC = () => {
   }, [filePath]);
 
   const handleLogOut = useCallback(() => {
-    resetImage();
-    resetPage();
+    resetImagesState();
     saveOnDevice(filePath, null);
     setUserFromDevice();
   }, [filePath]);
