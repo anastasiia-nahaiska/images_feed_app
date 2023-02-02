@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ImageI } from '../../types/Image';
+import { onError } from '../../utils/onError';
 import { getImagesPage } from './ImagesAPI';
 
 type ImagesState = {
@@ -40,8 +41,6 @@ const imagesSlice = createSlice({
     builder.addCase(
       load.fulfilled,
       (state, action: PayloadAction<ImageI[]>) => {
-        state.error = '';
-
         if (!action.payload.length) {
           state.isEndOfList = true;
         } else if (state.page === 1) {
@@ -50,23 +49,26 @@ const imagesSlice = createSlice({
           state.images = [...state.images, ...action.payload];
         }
 
+        state.error = '';
         state.loading = false;
       },
     );
 
     builder.addCase(load.rejected, state => {
       state.error = 'Can not load images';
+      onError(state.error);
       state.loading = false;
     });
   },
 });
 
-export const load = createAsyncThunk(
-  'images/fetch',
-  ({ page, limit }: { page: number; limit: number }) => {
-    return getImagesPage(page, limit);
-  },
-);
+export const load = createAsyncThunk('images/fetch', (page: number) => {
+  return getImagesPage(page);
+});
+
+export const loadFirstPage = createAsyncThunk('images/fetch', () => {
+  return getImagesPage(1);
+});
 
 export const { reducer } = imagesSlice;
 export const { increasePage, resetPage, resetImage } = imagesSlice.actions;

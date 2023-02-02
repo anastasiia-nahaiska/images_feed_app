@@ -4,13 +4,13 @@ import { fontSizes } from '../../constants/styles/fontSizes';
 
 export const styles = StyleSheet.create({
   root: {
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 20,
+    width: '50%',
   },
   message: {
-    fontSize: fontSizes.extraLarge,
-    color: colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.secondary,
+    color: colors.secondary,
+    fontSize: fontSizes.large,
   },
 });

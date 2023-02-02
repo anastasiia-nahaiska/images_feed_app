@@ -4,7 +4,7 @@ import { fontSizes } from '../../constants/styles/fontSizes';
 
 export const styles = StyleSheet.create({
   root: {
-    marginBottom: '10%',
+    marginBottom: 20,
     borderRadius: 10,
   },
   image: {

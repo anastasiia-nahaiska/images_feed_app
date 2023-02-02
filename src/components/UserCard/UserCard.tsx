@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { styles } from './styles';
 import { userFileName } from '../../constants/fileNames';
 import { colors } from '../../constants/styles/colors';
+import * as imagesActions from '../../features/Images/ImagesSlice';
 
 export const UserCard: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,6 +23,13 @@ export const UserCard: React.FC = () => {
     [],
   );
 
+  const resetPage = useCallback(() => dispatch(imagesActions.resetPage()), []);
+
+  const resetImage = useCallback(
+    () => dispatch(imagesActions.resetImage()),
+    [],
+  );
+
   const setUserFromDevice = useCallback(async () => {
     const userFromDevice: User = await getFromDevice(filePath);
 
@@ -29,6 +37,8 @@ export const UserCard: React.FC = () => {
   }, [filePath]);
 
   const handleLogOut = useCallback(() => {
+    resetImage();
+    resetPage();
     saveOnDevice(filePath, null);
     setUserFromDevice();
   }, [filePath]);
