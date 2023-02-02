@@ -14,9 +14,11 @@ Immerse yourself in an endless stream of beautiful images!
 
 Open a terminal in the project and run:
 
+1. Fork the repository
+2. Clone the forked repo
 1. Connect yor phone following https://reactnative.dev/docs/running-on-device or open a Virtual device
-2. `npm i`
-3. `npm start`
+2. Open a terminal and run `npm i`
+3. Run `npm start`
 4. Open additioal treminal and run `npx react-native run-android`
 
 **Environment**
