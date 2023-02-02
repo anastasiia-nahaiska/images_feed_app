@@ -2,7 +2,7 @@
 
 Immerse yourself in an endless stream of beautiful images!
 
-- [Preview](https://drive.google.com/file/d/18-24D6-bZWwdYw4Bcy2o83uCfZrguXKo/view?usp=sharing)
+- [Preview](https://drive.google.com/file/d/15Xl-a_rDZq74hs0hvrZXYioO_rNDqVR2/view?usp=sharing)
 
 **Used technologies**
 
@@ -21,7 +21,7 @@ Open a terminal in the project and run:
 1. Connect yor phone following https://reactnative.dev/docs/running-on-device or open a Virtual device
 2. Open a terminal and run `npm ci`
 3. Run `npm start`
-4. Open additioal treminal and run `npm run android`/`npm run ios`
+4. Open additioal treminal and run `npm run android` / `npm run ios`
 
 **Environment**
 ```
