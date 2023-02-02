@@ -28,6 +28,9 @@ const imagesSlice = createSlice({
     resetPage: state => {
       state.page = 1;
     },
+    resetImage: state => {
+      state.images = [];
+    },
   },
   extraReducers: builder => {
     builder.addCase(load.pending, state => {
@@ -37,6 +40,8 @@ const imagesSlice = createSlice({
     builder.addCase(
       load.fulfilled,
       (state, action: PayloadAction<ImageI[]>) => {
+        state.error = '';
+
         if (!action.payload.length) {
           state.isEndOfList = true;
         } else if (state.page === 1) {
@@ -64,4 +69,4 @@ export const load = createAsyncThunk(
 );
 
 export const { reducer } = imagesSlice;
-export const { increasePage, resetPage } = imagesSlice.actions;
+export const { increasePage, resetPage, resetImage } = imagesSlice.actions;

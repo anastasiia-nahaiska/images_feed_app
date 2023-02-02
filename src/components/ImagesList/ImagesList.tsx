@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -13,12 +13,15 @@ import { ListEmpty } from '../ListEmpty';
 import { ListFooter } from '../ListFooter';
 import * as imagesActions from '../../features/Images/ImagesSlice';
 import { styles } from './syles';
+import { NetworkInfoContext } from '../../context/NetworkInfoContext';
 
 export const ImagesList: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const { user } = useUser();
-  const { images, page, loading, error } = useImages();
   const [refreshing, setRefreshing] = useState(false);
+  const { isConnected } = useContext(NetworkInfoContext);
+  const dispatch = useAppDispatch();
+
+  const { images, page, loading, error } = useImages();
+  const { user } = useUser();
 
   const LIMIT = 3;
 
@@ -28,6 +31,10 @@ export const ImagesList: React.FC = () => {
   );
 
   const resetPage = useCallback(() => dispatch(imagesActions.resetPage()), []);
+  const resetImage = useCallback(
+    () => dispatch(imagesActions.resetImage()),
+    [],
+  );
 
   const loadImages = useCallback(
     (targetPage: number, limit: number) =>
@@ -62,6 +69,7 @@ export const ImagesList: React.FC = () => {
 
   useEffect(() => {
     resetPage();
+    resetImage();
   }, [user]);
 
   useEffect(() => {
@@ -71,6 +79,12 @@ export const ImagesList: React.FC = () => {
       onError();
     }
   }, [page]);
+
+  useEffect(() => {
+    if (isConnected) {
+      onRefresh();
+    }
+  }, [isConnected]);
 
   return (
     <View style={styles.root}>
@@ -84,9 +98,9 @@ export const ImagesList: React.FC = () => {
           renderItem={({ item }) => <ImageListItem image={item} />}
           keyExtractor={image => image.id}
           onEndReachedThreshold={0.3}
-          onEndReached={setNextPage}
+          onEndReached={isConnected ? setNextPage : null}
           ListFooterComponent={<ListFooter />}
-          ListEmptyComponent={<ListEmpty />}
+          ListEmptyComponent={isConnected && !loading ? <ListEmpty /> : null}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
