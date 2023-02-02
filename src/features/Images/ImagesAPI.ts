@@ -1,6 +1,6 @@
 import { getPage } from '../../utils/fetch';
 
-const IMAGES_BASE_URL = 'https://picsum.photos8';
+const IMAGES_BASE_URL = 'https://picsum.photos';
 const IMAGES_LIST_URL = '/v2/list';
 const LIMIT = 3;
 

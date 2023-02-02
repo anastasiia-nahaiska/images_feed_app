@@ -10,6 +10,7 @@ import { useAppDispatch, useImages } from '../../app/hooks';
 import { PressToRefresh } from '../../components/PressToRefresh';
 import { onError } from '../../utils/onError';
 import * as imagesActions from '../../features/Images/ImagesSlice';
+import { fontSizes } from '../../constants/styles/fontSizes';
 
 type Props = NativeStackScreenProps<TopTabParamList, 'Feed'>;
 
@@ -31,7 +32,9 @@ export const FeedScreen: React.FC<Props> = () => {
 
   return (
     <View style={styles.root}>
-      {!isConnected && images.length > 0 && <NetworkInfo />}
+      {!isConnected && images.length > 0 && (
+        <NetworkInfo fontSize={fontSizes.large} iconSize={20} />
+      )}
 
       {!isConnected && !images.length && (
         <View style={styles.netinfoWithRefresh}>
