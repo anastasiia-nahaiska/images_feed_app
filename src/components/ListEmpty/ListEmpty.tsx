@@ -17,7 +17,7 @@ export const ListEmpty: React.FC = () => {
     if (error.length > 0) {
       onError(error);
     }
-  }, []);
+  }, [error]);
 
   return (
     <View style={styles.root}>

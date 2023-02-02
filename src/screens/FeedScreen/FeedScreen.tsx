@@ -20,7 +20,7 @@ export const FeedScreen: React.FC<Props> = () => {
 
   const dispatch = useAppDispatch();
 
-  const { error } = useImages();
+  const { error, loading } = useImages();
 
   const loadImagesPage = useCallback(() => {
     dispatch(imagesActions.load(1));
@@ -28,7 +28,7 @@ export const FeedScreen: React.FC<Props> = () => {
     if (error.length > 0) {
       onError(error);
     }
-  }, []);
+  }, [error]);
 
   return (
     <View style={styles.root}>
@@ -36,7 +36,7 @@ export const FeedScreen: React.FC<Props> = () => {
         <NetworkInfo fontSize={fontSizes.large} iconSize={20} />
       )}
 
-      {!isConnected && !images.length && (
+      {!isConnected && !images.length && !loading && (
         <View style={styles.netinfoWithRefresh}>
           <NetworkInfo />
           <PressToRefresh onPress={loadImagesPage} />

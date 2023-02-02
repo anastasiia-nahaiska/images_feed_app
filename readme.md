@@ -2,6 +2,8 @@
 
 Immerse yourself in an endless stream of beautiful images!
 
+-[Preview](https://drive.google.com/file/d/1Snjs8b3X8AD9VNxiLRUU6QEoHhflq9Is/view?usp=sharing)
+
 **Used technologies**
 
 - React Native
@@ -17,9 +19,9 @@ Open a terminal in the project and run:
 1. Fork the repository
 2. Clone the forked repo
 1. Connect yor phone following https://reactnative.dev/docs/running-on-device or open a Virtual device
-2. Open a terminal and run `npm i`
+2. Open a terminal and run `npm ci`
 3. Run `npm start`
-4. Open additioal treminal and run `npx react-native run-android`
+4. Open additioal treminal and run `npm run android`/`npm run ios`
 
 **Environment**
 ```

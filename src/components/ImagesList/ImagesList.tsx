@@ -29,13 +29,16 @@ export const ImagesList: React.FC = () => {
 
   const resetPage = useCallback(() => dispatch(imagesActions.resetPage()), []);
 
-  const loadImagesPage = useCallback((targetPage: number) => {
-    dispatch(imagesActions.load(targetPage));
+  const loadImagesPage = useCallback(
+    (targetPage: number) => {
+      dispatch(imagesActions.load(targetPage));
 
-    if (error.length > 0) {
-      onError(error);
-    }
-  }, []);
+      if (error.length > 0) {
+        onError(error);
+      }
+    },
+    [error],
+  );
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);

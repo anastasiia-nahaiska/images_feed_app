@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ImageI } from '../../types/Image';
-import { onError } from '../../utils/onError';
 import { getImagesPage } from './ImagesAPI';
 
 type ImagesState = {
@@ -35,6 +34,7 @@ const imagesSlice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(load.pending, state => {
+      state.error = '';
       state.loading = true;
     });
 
@@ -49,14 +49,12 @@ const imagesSlice = createSlice({
           state.images = [...state.images, ...action.payload];
         }
 
-        state.error = '';
         state.loading = false;
       },
     );
 
     builder.addCase(load.rejected, state => {
       state.error = 'Can not load images';
-      onError(state.error);
       state.loading = false;
     });
   },
