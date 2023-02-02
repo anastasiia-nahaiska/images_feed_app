@@ -64,9 +64,5 @@ export const load = createAsyncThunk('images/fetch', (page: number) => {
   return getImagesPage(page);
 });
 
-export const loadFirstPage = createAsyncThunk('images/fetch', () => {
-  return getImagesPage(1);
-});
-
 export const { reducer } = imagesSlice;
 export const { increasePage, resetPage, resetImage } = imagesSlice.actions;

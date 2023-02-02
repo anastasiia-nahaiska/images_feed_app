@@ -18,22 +18,20 @@ export const UserCard: React.FC = () => {
 
   const filePath = `${Dirs.DocumentDir}/${userFileName}`;
 
-  const setUser = useCallback(
-    async (newUser: User | null) => dispatch(userActions.set(newUser)),
-    [],
-  );
+  const setUser = useCallback((newUser: User | null) => {
+    dispatch(userActions.set(newUser));
+  }, []);
 
   const resetPage = useCallback(() => dispatch(imagesActions.resetPage()), []);
 
-  const resetImage = useCallback(
-    () => dispatch(imagesActions.resetImage()),
-    [],
-  );
+  const resetImage = useCallback(() => {
+    dispatch(imagesActions.resetImage());
+  }, []);
 
   const setUserFromDevice = useCallback(async () => {
     const userFromDevice: User = await getFromDevice(filePath);
 
-    await setUser(userFromDevice);
+    setUser(userFromDevice);
   }, [filePath]);
 
   const handleLogOut = useCallback(() => {

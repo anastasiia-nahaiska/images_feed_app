@@ -13,40 +13,32 @@ import { ListFooter } from '../ListFooter';
 import * as imagesActions from '../../features/Images/ImagesSlice';
 import { styles } from './syles';
 import { NetworkInfoContext } from '../../context/NetworkInfoContext';
-import { onError } from '../../utils/onError';
 
 export const ImagesList: React.FC = () => {
   const [refreshing, setRefreshing] = useState(false);
   const { isConnected } = useContext(NetworkInfoContext);
   const dispatch = useAppDispatch();
 
-  const { images, page, loading, error } = useImages();
-
-  const setNextPage = useCallback(
-    () => dispatch(imagesActions.increasePage()),
-    [],
-  );
+  const { images, page, loading } = useImages();
 
   const resetPage = useCallback(() => dispatch(imagesActions.resetPage()), []);
 
-  const loadImagesPage = useCallback(
-    (targetPage: number) => {
-      dispatch(imagesActions.load(targetPage));
+  const setNextPage = useCallback(() => {
+    dispatch(imagesActions.increasePage());
+  }, []);
 
-      if (error.length > 0) {
-        onError(error);
-      }
-    },
-    [error],
-  );
+  const loadImagesPage = useCallback((targetPage: number) => {
+    dispatch(imagesActions.load(targetPage));
+  }, []);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
 
     resetPage();
+    loadImagesPage(1);
 
     setRefreshing(false);
-  }, [page]);
+  }, []);
 
   useEffect(() => {
     if (isConnected && page !== 1) {
@@ -72,9 +64,9 @@ export const ImagesList: React.FC = () => {
           renderItem={({ item }) => <ImageListItem image={item} />}
           keyExtractor={image => image.id}
           onEndReachedThreshold={0.2}
-          onEndReached={isConnected ? setNextPage : null}
+          onEndReached={isConnected && images.length > 0 ? setNextPage : null}
           ListFooterComponent={<ListFooter />}
-          ListEmptyComponent={isConnected && !loading ? <ListEmpty /> : null}
+          ListEmptyComponent={isConnected ? <ListEmpty /> : null}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }

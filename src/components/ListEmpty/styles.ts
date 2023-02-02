@@ -4,7 +4,6 @@ import { fontSizes } from '../../constants/styles/fontSizes';
 
 export const styles = StyleSheet.create({
   root: {
-    flexGrow: 1,
     alignItems: 'center',
     gap: 30,
   },

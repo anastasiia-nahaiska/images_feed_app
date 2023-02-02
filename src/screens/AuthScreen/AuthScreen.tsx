@@ -29,10 +29,9 @@ export const AuthScreen: React.FC<Props> = () => {
 
   const filePath = `${Dirs.DocumentDir}/${userFileName}`;
 
-  const setUser = useCallback(
-    (newUser: User) => dispatch(userActions.set(newUser)),
-    [],
-  );
+  const setUser = useCallback((newUser: User) => {
+    dispatch(userActions.set(newUser));
+  }, []);
 
   const getUserFromDevice = useCallback(async () => {
     const userFromDevice: User = await getFromDevice(filePath);
@@ -60,11 +59,11 @@ export const AuthScreen: React.FC<Props> = () => {
     let message = '';
 
     if (!passwordRegex.test(password)) {
-      message = 'Password can contain only digits and english letters';
+      message = 'Password can contain only digits and English letters';
     }
 
     if (password.length < 8 || password.length > 32) {
-      message = 'Password length must be from 8 to 32';
+      message = 'Password length must be between 8 and 32';
     }
 
     if (!password.length) {
@@ -96,7 +95,7 @@ export const AuthScreen: React.FC<Props> = () => {
 
   useEffect(() => {
     getUserFromDevice();
-  }, [email, password, filePath]);
+  }, []);
 
   return (
     <View style={styles.root}>

@@ -16,7 +16,3 @@ export const getFromDevice = async (path: string): Promise<any> => {
 
   return data;
 };
-
-export const removeFromDevice = async (path: string) => {
-  await FileSystem.unlink(path);
-};

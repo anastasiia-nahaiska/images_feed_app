@@ -7,10 +7,8 @@ import { styles } from './styles';
 
 type Props = NativeStackScreenProps<TopTabParamList, 'Profile'>;
 
-export const ProfileScreen: React.FC<Props> = () => {
-  return (
-    <View style={styles.root}>
-      <UserCard />
-    </View>
-  );
-};
+export const ProfileScreen: React.FC<Props> = () => (
+  <View style={styles.root}>
+    <UserCard />
+  </View>
+);
