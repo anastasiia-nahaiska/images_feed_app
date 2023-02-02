@@ -2,7 +2,7 @@
 
 Immerse yourself in an endless stream of beautiful images!
 
-- [Preview](https://drive.google.com/file/d/1Snjs8b3X8AD9VNxiLRUU6QEoHhflq9Is/view?usp=sharing)
+- [Preview](https://drive.google.com/file/d/18-24D6-bZWwdYw4Bcy2o83uCfZrguXKo/view?usp=sharing)
 
 **Used technologies**
 
